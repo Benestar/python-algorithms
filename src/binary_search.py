@@ -6,10 +6,10 @@ def binary_search_list(lst, val):
     binary_search(lambda i: val - lst[i], 0, len(lst))
 
 
-def binary_search(fn, begin, end):
+def binary_search(fn, begin, end, threshold=0):
     current = (begin + end) / 2
 
-    while True:
+    while end - begin > threshold:
         val = fn(current)
 
         if val < 0:
@@ -17,6 +17,8 @@ def binary_search(fn, begin, end):
         elif val > 0:
             begin = current
         else:
-            return current
-        
+            break
+
         current = (begin + end) / 2
+
+    return current
