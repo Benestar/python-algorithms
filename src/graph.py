@@ -20,6 +20,9 @@ class AdjacencyListGraph:
     def remove_edge(self, u, v):
         self.adj_lst[u].remove(v)
 
+    def __iter__(self):
+        yield from range(len(self.adj_lst))
+
     def __len__(self):
         return len(self.adj_lst)
 
@@ -46,6 +49,9 @@ class AdjacencyMatrixGraph:
 
     def remove_edge(self, u, v):
         self.adj_mat[u][v] = False
+
+    def __iter__(self):
+        yield from range(len(self.adj_mat))
 
     def __len__(self):
         return len(self.adj_mat)
