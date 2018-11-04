@@ -5,8 +5,9 @@ Graph traversal algorithms
 from collections import deque
 
 
-def dfs(graph, v, explored=set()):
+def dfs(graph, v, explored=None):
     queue = deque([(v, None)])
+    explored = set() if explored is None else explored
 
     while queue:
         v, u = queue.pop()
@@ -18,8 +19,9 @@ def dfs(graph, v, explored=set()):
             queue.extend((u, v) for u in graph[v])
 
 
-def bfs(graph, v, explored=set()):
+def bfs(graph, v, explored=None):
     queue = deque([(v, None)])
+    explored = set() if explored is None else explored
 
     while queue:
         v, u = queue.popleft()
