@@ -4,39 +4,36 @@ Graph traversal algorithms
 
 from collections import deque
 
-class LifoQueue(deque):
 
-    def get(self):
-        return self.pop()
+def dfs(graph, v, explored=set()):
+    queue = deque([(v, None)])
 
-class FifoQueue(deque):
-
-    def get(self):
-        return self.popleft()
-
-
-def explore(graph, queue, explored):
     while queue:
-        v = queue.get()
+        v, u = queue.pop()
 
         if v not in explored:
-            yield v
-            
-            explored.add(v)
-            queue.extend(graph[v])
-    
+            yield v, u
 
-def traverse(graph, queue):
+            explored.add(v)
+            queue.extend((u, v) for u in graph[v])
+
+
+def bfs(graph, v, explored=set()):
+    queue = deque([(v, None)])
+
+    while queue:
+        v, u = queue.popleft()
+
+        if v not in explored:
+            yield v, u
+
+            explored.add(v)
+            queue.extend((u, v) for u in graph[v])
+
+
+def traverse(graph, algo):
     explored = set()
 
     for v in graph:
         if v not in explored:
-            queue.append(v)
-
-            yield from explore(graph, queue, explored)
-
-def dfs(graph):
-    yield from traverse(graph, LifoQueue())
-
-def bfs(graph):
-    yield from traverse(graph, FifoQueue())
+            yield from algo(graph, v, explored)
