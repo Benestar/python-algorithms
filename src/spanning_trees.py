@@ -16,4 +16,30 @@ def kruskal(graph, weights):
 
 
 def prim(graph, weights):
-    pass
+    INF = float('inf')
+
+    values = [INF for _ in graph]
+    queue = [(INF, v) for v in graph]
+    pred = [None for _ in graph]
+    elements = set(graph)
+
+    heapq.heapify(queue)
+
+    while elements:
+        x, v = heapq.heappop(queue)
+
+        try:
+            elements.remove(v)
+        except:
+            continue
+
+        for u in graph[v]:
+            if u in elements and weights[v, u] < values[v]:
+                pred[u] = v
+
+                values[u] = weights[v, u]
+                heapq.heappush(queue, (values[u], u))
+
+    for u, v in enumerate(pred):
+        if v is not None:
+            yield u, v
