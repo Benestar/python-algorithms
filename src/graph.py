@@ -27,7 +27,7 @@ class AdjacencyListGraph:
         return len(self.adj_lst)
 
     def __getitem__(self, v):
-        return self.adj_lst[u]
+        return self.adj_lst[v]
 
 
 class AdjacencyMatrixGraph:
