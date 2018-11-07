@@ -25,7 +25,7 @@ def prim(graph, weights):
     heapq.heapify(queue)
 
     while elements:
-        x, v, u = heapq.heappop(queue)
+        _, v, u = heapq.heappop(queue)
 
         try:
             elements.remove(v)
