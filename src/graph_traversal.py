@@ -10,6 +10,7 @@ def dfs(graph, v, explored=None):
     explored = set() if explored is None else explored
 
     while queue:
+        # pop right side (LIFO)
         v, p = queue.pop()
 
         if v not in explored:
@@ -24,6 +25,7 @@ def bfs(graph, v, explored=None):
     explored = set() if explored is None else explored
 
     while queue:
+        # pop left side (FIFO)
         v, p = queue.popleft()
 
         if v not in explored:
