@@ -43,7 +43,7 @@ def traverse(graph, algo):
             yield from algo(graph, v, explored)
 
 
-def topological_sort(graph, pred, roots):
+def topological_sort(graph, preds, roots):
     queue = deque((v, None) for v in roots)
 
     while queue:
@@ -52,7 +52,7 @@ def topological_sort(graph, pred, roots):
         yield v, p
 
         for u in graph[v]:
-            pred[u] -= 1
+            preds[u] -= 1
 
-            if pred[u] == 0:
+            if preds[u] == 0:
                 queue.append((u, v))
