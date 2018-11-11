@@ -5,8 +5,8 @@ Algorithms for minimum spanning trees
 from union_find import UnionFind
 
 
-def kruskal(graph, weights):
-    union_find = UnionFind(len(graph))
+def kruskal(size, weights):
+    union_find = UnionFind(size)
 
     for u, v in sorted(weights, key=weights.get):
         if union_find.find(u) != union_find.find(v):

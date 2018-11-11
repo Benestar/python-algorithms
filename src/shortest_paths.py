@@ -34,59 +34,25 @@ def dijkstra(graph, weights, src):
                 heapq.heappush(queue, (dist[u], u, v))
 
 
-def bellman_ford(graph, weights, src):
+def bellman_ford(size, weights, src):
     INF = float('inf')
 
-    dist = [INF for _ in graph]
+    dist = [INF for _ in range(size)]
     dist[src] = 0
 
-    queue = deque([(0, src, None)])
-    elements = set([src])
+    pred = [None for _ in range(size)]
 
-    while elements:
-        d, v, p = queue.popleft()
+    for _ in range(size - 1):
+        for (u, v) in weights:
+            if dist[u] + weights[u, v] < dist[v]:
+                dist[v] = dist[u] + weights[u, v]
+                pred[v] = u
 
-        elements.remove(v)
+    for (u, v) in weights:
+        if dist[u] + weights[u, v] < dist[v]:
+            raise RuntimeError("Negative cycle detected")
 
-        yield v, p, d
-
-        for u in graph[v]:
-            if dist[v] + weights[v, u] < dist[u]:
-                dist[u] = dist[v] + weights[v, u]
-
-                if u not in elements:
-                    queue.append((dist[u], u, v))
-
-
-def bellman_ford_negative_cycles(graph, weights, src):
-    INF = float('inf')
-
-    dist = [INF for _ in graph]
-    dist[src] = 0
-
-    pop_queue, push_queue = deque([(0, src, None)]), deque()
-    pop_elements, push_elements = set([src]), set()
-
-    for _ in range(len(graph) - 1):
-        while pop_elements:
-            d, v, p = pop_queue.popleft()
-            pop_elements.remove(v)
-
-            yield v, p, d
-
-            for u in graph[v]:
-                if dist[v] + weights[v, u] < dist[u]:
-                    dist[u] = dist[v] + weights[v, u]
-
-                    if u not in push_elements:
-                        push_queue.append((dist[u], u, v))
-                        push_elements.add(u)
-
-        pop_queue, push_queue = push_queue, pop_queue
-        pop_elements, push_elements = push_elements, pop_elements
-
-    if pop_queue:
-        raise RuntimeError("Negative cycle detected")
+    return dist, pred
 
 
 def floyd_warshall(size, dist):
